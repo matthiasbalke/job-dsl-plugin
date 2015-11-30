@@ -5075,7 +5075,7 @@ class PublisherContextSpec extends Specification {
         }
         1 * jobManagement.requireMinimumPluginVersion('svn-tag', '1.18')
     }
-	
+
     def 'call cucumberReports with no options'() {
         when:
         context.cucumberReports {
