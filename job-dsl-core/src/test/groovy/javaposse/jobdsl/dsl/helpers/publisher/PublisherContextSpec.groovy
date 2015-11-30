@@ -5041,6 +5041,41 @@ class PublisherContextSpec extends Specification {
         value << [true, false]
     }
 
+	def 'svnTag with no options'() {
+        when:
+        context.svnTag {}
+        then:
+        context.publisherNodes.size() == 1
+        with(context.publisherNodes[0]) {
+            name() == 'hudson.plugins.svn__tag.SvnTagPublisher'
+            children().size() == 3
+            tagBaseURL[0].value() == "http://subversion_host/project/tags/last-successful/\${env['JOB_NAME']}"
+            tagComment[0].value() == "Tagged by Jenkins svn-tag plugin. Build:\${env['BUILD_TAG']}."
+            tagDeleteComment[0].value() == 'Delete old tag by svn-tag Jenkins plugin.'
+        }
+        1 * jobManagement.requireMinimumPluginVersion('svn-tag', '1.18')
+    }
+
+    def 'svnTag with all options'() {
+        when:
+        context.svnTag {
+            baseUrl('http://subversion.com')
+            comment('tag comment')
+            deleteComment('delete comment')
+        }
+
+        then:
+        context.publisherNodes.size() == 1
+        with(context.publisherNodes[0]) {
+            name() == 'hudson.plugins.svn__tag.SvnTagPublisher'
+            children().size() == 3
+            tagBaseURL[0].value() == 'http://subversion.com'
+            tagComment[0].value() == 'tag comment'
+            tagDeleteComment[0].value() == 'delete comment'
+        }
+        1 * jobManagement.requireMinimumPluginVersion('svn-tag', '1.18')
+    }
+
     def 'publish deployment to WebLogic with least args'() {
         when:
         context.deployToWeblogic()
@@ -5135,7 +5170,6 @@ class PublisherContextSpec extends Specification {
                 commandLine ''
                 deploymentPlan ''
             }
-
         }
 
         then:
