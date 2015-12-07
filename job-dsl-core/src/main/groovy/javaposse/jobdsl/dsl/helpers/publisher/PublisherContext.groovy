@@ -225,6 +225,21 @@ class PublisherContext extends AbstractExtensibleContext {
     }
 
     /**
+     * Publishes Gatling load simulation reports.
+     *
+     * @since 1.41
+     */
+    @RequiresPlugin(id = 'gatling', minimumVersion = '1.1.1')
+    void archiveGatling(@DslContext(ArchiveGatlingContext) Closure gatlingClosure = null) {
+        ArchiveGatlingContext gatlingContext = new ArchiveGatlingContext(jobManagement)
+        ContextHelper.executeInContext(gatlingClosure, gatlingContext)
+
+        publisherNodes << new NodeBuilder().'io.gatling.jenkins.GatlingPublisher' {
+            enabled(gatlingContext.enabled)
+        }
+    }
+
+    /**
      * Publishes a JaCoCo coverage report.
      *
      * @since 1.17
@@ -1696,7 +1711,7 @@ class PublisherContext extends AbstractExtensibleContext {
         }
     }
 
-    /*
+    /**
      * Publishes Cucumber results as HTML reports.
      *
      * @since 1.41
@@ -1721,7 +1736,7 @@ class PublisherContext extends AbstractExtensibleContext {
         }
     }
 
-    /*
+    /**
      * Publishes Cucumber test results.
      *
      * @since 1.41
@@ -1735,6 +1750,22 @@ class PublisherContext extends AbstractExtensibleContext {
                 'org.jenkinsci.plugins.cucumber.jsontestsupport.CucumberTestResultArchiver' {
             testResults(context.jsonReportFiles ?: '')
             ignoreBadSteps(context.ignoreBadSteps)
+        }
+    }
+
+    /**
+     * Updates relevant Mantis issues.
+     *
+     * @since 1.41
+     */
+    @RequiresPlugin(id = 'mantis', minimumVersion = '0.26')
+    void mantis(@DslContext(MantisContext) Closure closure) {
+        MantisContext context = new MantisContext()
+        ContextHelper.executeInContext(closure, context)
+
+        publisherNodes << new NodeBuilder().'hudson.plugins.mantis.MantisIssueUpdater' {
+            keepNotePrivate(context.keepNotePrivate)
+            recordChangelog(context.recordChangelogToNote)
         }
     }
 

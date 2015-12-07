@@ -22,6 +22,9 @@ Browse the Jenkins issue tracker to see any [open issues](https://issues.jenkins
 ## Release Notes
 * 1.41 (unreleased)
  * Added support for the [WebLogic Deployer Plugin](https://wiki.jenkins-ci.org/display/JENKINS/WebLogic+Deployer+Plugin)
+ * Added support for the [Mantis Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Mantis+Plugin)
+   ([JENKINS-31911](https://issues.jenkins-ci.org/browse/JENKINS-31911))
+ * Added support for the [Gatling Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Gatling+Plugin)
  * Added support for the
    [Cucumber Test Result Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Cucumber+Test+Result+Plugin)
    ([JENKINS-31815](https://issues.jenkins-ci.org/browse/JENKINS-31815))
@@ -48,6 +51,8 @@ Browse the Jenkins issue tracker to see any [open issues](https://issues.jenkins
    [Migration](Migration#migrating-to-141)
  * Enhanced support for the [Run Condition Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Run+Condition+Plugin)
    ([JENKINS-31581](https://issues.jenkins-ci.org/browse/JENKINS-31581))
+ * Enhanced support for the [vSphere Cloud Plugin](https://wiki.jenkins-ci.org/display/JENKINS/vSphere+Cloud+Plugin)
+   ([JENKINS-31818](https://issues.jenkins-ci.org/browse/JENKINS-31818))
  * Fixed support for the [Run Condition Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Run+Condition+Plugin)
    ([JENKINS-31604](https://issues.jenkins-ci.org/browse/JENKINS-31604))
 * 1.40 (November 08 2015)

@@ -575,6 +575,34 @@ class PublisherContextSpec extends Specification {
         1 * jobManagement.requireMinimumPluginVersion('testng-plugin', '1.10')
     }
 
+    def 'calling gatling archive with minimal args'() {
+        when:
+        context.archiveGatling()
+
+        then:
+        with(context.publisherNodes[0]) {
+            name() == 'io.gatling.jenkins.GatlingPublisher'
+            children().size == 1
+            enabled[0].value() == true
+        }
+        1 * jobManagement.requireMinimumPluginVersion('gatling', '1.1.1')
+    }
+
+    def 'calling gatling archive with all args'() {
+        when:
+        context.archiveGatling {
+            enabled(false)
+        }
+
+        then:
+        with(context.publisherNodes[0]) {
+            name() == 'io.gatling.jenkins.GatlingPublisher'
+            children().size == 1
+            enabled[0].value() == false
+        }
+        1 * jobManagement.requireMinimumPluginVersion('gatling', '1.1.1')
+    }
+
     def 'call jacoco code coverage with no args'() {
         when:
         context.jacocoCodeCoverage()
@@ -5172,6 +5200,43 @@ class PublisherContextSpec extends Specification {
             ignoreBadSteps[0].value() == value
         }
         1 * jobManagement.requireMinimumPluginVersion('cucumber-testresult-plugin', '0.8.2')
+
+        where:
+        value << [true, false]
+    }
+
+    def 'call mantis with no options'() {
+        when:
+        context.mantis {
+        }
+
+        then:
+        context.publisherNodes.size() == 1
+        with(context.publisherNodes[0]) {
+            name() == 'hudson.plugins.mantis.MantisIssueUpdater'
+            children().size() == 2
+            keepNotePrivate[0].value() == false
+            recordChangelog[0].value() == false
+        }
+        1 * jobManagement.requireMinimumPluginVersion('mantis', '0.26')
+    }
+
+    def 'call mantis with all options'() {
+        when:
+        context.mantis {
+            keepNotePrivate(value)
+            recordChangelogToNote(value)
+        }
+
+        then:
+        context.publisherNodes.size() == 1
+        with(context.publisherNodes[0]) {
+            name() == 'hudson.plugins.mantis.MantisIssueUpdater'
+            children().size() == 2
+            keepNotePrivate[0].value() == value
+            recordChangelog[0].value() == value
+        }
+        1 * jobManagement.requireMinimumPluginVersion('mantis', '0.26')
 
         where:
         value << [true, false]
