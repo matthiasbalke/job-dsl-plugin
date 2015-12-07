@@ -1820,15 +1820,15 @@ class PublisherContext extends AbstractExtensibleContext {
         NodeBuilder nodeBuilder = NodeBuilder.newInstance()
         Node weblogicDeployerNode = nodeBuilder.'org.jenkinsci.plugins.deploy.weblogic.WeblogicDeploymentPlugin' {
 
-            mustExitOnFailure context.mustExitOnFailure
-            forceStopOnFirstFailure context.forceStopOnFirstFailure
-            isDeployingOnlyWhenUpdates context.deployingOnlyWhenUpdates
-            deployedProjectsDependencies context.deployedProjectsDependencies
+            mustExitOnFailure(context.mustExitOnFailure)
+            forceStopOnFirstFailure(context.forceStopOnFirstFailure)
+            isDeployingOnlyWhenUpdates(context.deployingOnlyWhenUpdates)
+            deployedProjectsDependencies(context.deployedProjectsDependencies)
 
-            selectedDeploymentStrategyIds context.deploymentPoliciesIdsNodes
+            selectedDeploymentStrategyIds(context.deploymentPoliciesIdsNodes)
 
             if (context.taskNodes) {
-                tasks context.taskNodes
+                tasks(context.taskNodes)
             }
         }
 

@@ -1,51 +1,39 @@
 job('example') {
     publishers {
         deployToWeblogic {
-            // these are the default values used for optional fields, when not overridden by closure
-            mustExitOnFailure false
-            forceStopOnFirstFailure false
-            deployingOnlyWhenUpdates false
+            mustExitOnFailure(true)
+            forceStopOnFirstFailure(true)
 
-            deployedProjectsDependencies ''
-
-            deploymentPolicies {
-                user()
-                scmChange()
-            }
-
-            // min. one task is required
+            // at least one task is required
             task {
                 // required
-                weblogicEnvironmentTargetedName 'dev_environment'
+                weblogicEnvironmentTargetedName('dev_environment')
                 // required
-                deploymentName 'myApplicationName'
+                deploymentName('myApplicationName')
 
-                deploymentTargets 'AdminServer'
+                deploymentTargets('AdminServer')
 
                 // required
-                builtResourceRegexToDeploy 'myApp\\.ear'
+                builtResourceRegexToDeploy('myApp\\.ear')
                 // required
-                baseResourcesGeneratedDirectory ''
+                baseResourcesGeneratedDirectory('')
                 // required
-                taskName 'Deploy myApp to DEV Server'
+                taskName('Deploy myApp to DEV Server')
 
-                jdkName 'JDK_7'
-                jdkHome 'C:\\Program Files\\Java\\jdk1.7.0_65'
+                jdkName('JDK_7')
+                jdkHome('C:\\Program Files\\Java\\jdk1.7.0_65')
 
-                // one of: WeblogicDeploymentStageModes
-                stageMode WeblogicDeploymentStageModes.BY_DEFAULT
+                stageMode(WeblogicDeploymentStageModes.STAGE)
 
-                commandLine '-debug -remote -verbose'
-                commandLine '-name {wl.deployment_name} -targets {wl.targets}'
-                commandLine '-adminurl t3://{wl.host}:{wl.port} -user {wl.login} -password {wl.password}'
-                commandLine '-undeploy -noexit;\n'
+                commandLine('-debug -remote -verbose')
+                commandLine('-name {wl.deployment_name} -targets {wl.targets}')
+                commandLine('-adminurl t3://{wl.host}:{wl.port} -user {wl.login} -password {wl.password}')
+                commandLine('-undeploy -noexit;\n')
 
-                commandLine '-debug -remote -verbose'
-                commandLine '-name {wl.deployment_name} -source {wl.source} -targets {wl.targets}'
-                commandLine '-adminurl t3://{wl.host}:{wl.port} -user {wl.login} -password {wl.password}'
-                commandLine '-deploy -stage -upload;'
-
-                deploymentPlan ''
+                commandLine('-debug -remote -verbose')
+                commandLine('-name {wl.deployment_name} -source {wl.source} -targets {wl.targets}')
+                commandLine('-adminurl t3://{wl.host}:{wl.port} -user {wl.login} -password {wl.password}')
+                commandLine('-deploy -stage -upload;')
             }
         }
     }

@@ -5069,9 +5069,10 @@ class PublisherContextSpec extends Specification {
         value << [true, false]
     }
 
-	def 'svnTag with no options'() {
+    def 'svnTag with no options'() {
         when:
         context.svnTag {}
+
         then:
         context.publisherNodes.size() == 1
         with(context.publisherNodes[0]) {
@@ -5248,10 +5249,12 @@ class PublisherContextSpec extends Specification {
 
         then:
         context.publisherNodes.size() == 1
-        context.publisherNodes[0].name() == 'org.jenkinsci.plugins.deploy.weblogic.WeblogicDeploymentPlugin'
-        context.publisherNodes[0].mustExitOnFailure[0].value() == false
-        context.publisherNodes[0].forceStopOnFirstFailure[0].value() == false
-        context.publisherNodes[0].isDeployingOnlyWhenUpdates[0].value() == false
+        with(context.publisherNodes[0]) {
+            name() == 'org.jenkinsci.plugins.deploy.weblogic.WeblogicDeploymentPlugin'
+            mustExitOnFailure[0].value() == false
+            forceStopOnFirstFailure[0].value() == false
+            isDeployingOnlyWhenUpdates[0].value() == false
+        }
     }
 
     def 'publish one deployment to WebLogic with all required args'() {
@@ -5259,47 +5262,51 @@ class PublisherContextSpec extends Specification {
         context.deployToWeblogic {
 
             task {
-                weblogicEnvironmentTargetedName 'test_environment'
-                deploymentName 'myApp'
-                deploymentTargets 'ms_one'
-                builtResourceRegexToDeploy 'myApp.ear'
-                baseResourcesGeneratedDirectory ''
-                taskName 'test_deploy_task'
+                weblogicEnvironmentTargetedName('test_environment')
+                deploymentName('myApp')
+                deploymentTargets('ms_one')
+                builtResourceRegexToDeploy('myApp.ear')
+                baseResourcesGeneratedDirectory('')
+                taskName('test_deploy_task')
 
-                jdkName 'JDK 7'
+                jdkName('JDK 7')
 
-                stageMode WeblogicDeploymentStageModes.BY_DEFAULT
+                stageMode(WeblogicDeploymentStageModes.BY_DEFAULT)
             }
 
         }
 
         then:
         context.publisherNodes.size() == 1
-        context.publisherNodes[0].name() == 'org.jenkinsci.plugins.deploy.weblogic.WeblogicDeploymentPlugin'
-        context.publisherNodes[0].mustExitOnFailure[0].value() == false
-        context.publisherNodes[0].forceStopOnFirstFailure[0].value() == false
-        context.publisherNodes[0].isDeployingOnlyWhenUpdates[0].value() == false
-        context.publisherNodes[0].deployedProjectsDependencies[0].value() == ''
+        with(context.publisherNodes[0]) {
+            name() == 'org.jenkinsci.plugins.deploy.weblogic.WeblogicDeploymentPlugin'
+            mustExitOnFailure[0].value() == false
+            forceStopOnFirstFailure[0].value() == false
+            isDeployingOnlyWhenUpdates[0].value() == false
+            deployedProjectsDependencies[0].value() == ''
 
-        context.publisherNodes[0].tasks.size() == 1
-        def task = context.publisherNodes[0].tasks[0].'org.jenkinsci.plugins.deploy.weblogic.data.DeploymentTask'
-        task.size() == 1
+            tasks.size() == 1
+            def task = tasks[0].'org.jenkinsci.plugins.deploy.weblogic.data.DeploymentTask'
+            task.size() == 1
 
-        task[0].id[0].value().size() == 10
-        task[0].weblogicEnvironmentTargetedName[0].value() == 'test_environment'
-        task[0].deploymentName[0].value() == 'myApp'
-        task[0].deploymentTargets[0].value() == 'ms_one'
-        task[0].isLibrary[0].value() == false
-        task[0].builtResourceRegexToDeploy[0].value() == 'myApp.ear'
-        task[0].baseResourcesGeneratedDirectory[0].value() == ''
-        task[0].taskName[0].value() == 'test_deploy_task'
+            with (task[0]) {
+                id[0].value().size() == 10
+                weblogicEnvironmentTargetedName[0].value() == 'test_environment'
+                deploymentName[0].value() == 'myApp'
+                deploymentTargets[0].value() == 'ms_one'
+                isLibrary[0].value() == false
+                builtResourceRegexToDeploy[0].value() == 'myApp.ear'
+                baseResourcesGeneratedDirectory[0].value() == ''
+                taskName[0].value() == 'test_deploy_task'
 
-        task[0].jdk[0].name[0].value() == 'JDK 7'
-        task[0].jdk[0].home[0].value() == ''
+                jdk[0].name[0].value() == 'JDK 7'
+                jdk[0].home[0].value() == ''
 
-        task[0].stageMode[0].value() == WeblogicDeploymentStageModes.BY_DEFAULT.toString()
-        task[0].commandLine[0].value() == ''
-        task[0].deploymentPlan[0].value() == ''
+                stageMode[0].value() == WeblogicDeploymentStageModes.BY_DEFAULT.toString()
+                commandLine[0].value() == ''
+                deploymentPlan[0].value() == ''
+            }
+        }
     }
 
     def 'publish one deployment to WebLogic with all args'() {
@@ -5308,7 +5315,7 @@ class PublisherContextSpec extends Specification {
             mustExitOnFailure()
             forceStopOnFirstFailure()
             deployingOnlyWhenUpdates()
-            deployedProjectsDependencies 'abc,def'
+            deployedProjectsDependencies('abc,def')
 
             deploymentPolicies {
                 legacyCode()
@@ -5321,60 +5328,65 @@ class PublisherContextSpec extends Specification {
             }
 
             task {
-                weblogicEnvironmentTargetedName 'test_environment'
-                deploymentName 'myApp'
-                deploymentTargets 'ms_one'
+                weblogicEnvironmentTargetedName('test_environment')
+                deploymentName('myApp')
+                deploymentTargets('ms_one')
                 isLibrary()
-                builtResourceRegexToDeploy 'myApp.ear'
-                baseResourcesGeneratedDirectory ''
-                taskName 'test_deploy_task'
+                builtResourceRegexToDeploy('myApp.ear')
+                baseResourcesGeneratedDirectory('')
+                taskName('test_deploy_task')
 
-                jdkName 'JDK 7'
-                jdkHome ''
+                jdkName('JDK 7')
+                jdkHome('')
 
-                stageMode WeblogicDeploymentStageModes.BY_DEFAULT
-                commandLine ''
-                deploymentPlan ''
+                stageMode(WeblogicDeploymentStageModes.BY_DEFAULT)
+                commandLine('')
+                deploymentPlan('')
             }
         }
 
         then:
         context.publisherNodes.size() == 1
-        context.publisherNodes[0].name() == 'org.jenkinsci.plugins.deploy.weblogic.WeblogicDeploymentPlugin'
-        context.publisherNodes[0].mustExitOnFailure[0].value() == true
-        context.publisherNodes[0].forceStopOnFirstFailure[0].value() == true
-        context.publisherNodes[0].isDeployingOnlyWhenUpdates[0].value() == true
-        context.publisherNodes[0].deployedProjectsDependencies[0].value() == 'abc,def'
+        with(context.publisherNodes[0]) {
+            name() == 'org.jenkinsci.plugins.deploy.weblogic.WeblogicDeploymentPlugin'
+            mustExitOnFailure[0].value() == true
+            forceStopOnFirstFailure[0].value() == true
+            isDeployingOnlyWhenUpdates[0].value() == true
+            deployedProjectsDependencies[0].value() == 'abc,def'
 
-        def selectedDeploymentStrategyId = context.publisherNodes[0].selectedDeploymentStrategyIds[0]
-        selectedDeploymentStrategyId.children().size() == 7
-        selectedDeploymentStrategyId.string[0].value() == WeblogicDeploymentPolicies.LEGACY_CODE
-        selectedDeploymentStrategyId.string[1].value() == WeblogicDeploymentPolicies.USER
-        selectedDeploymentStrategyId.string[2].value() == WeblogicDeploymentPolicies.USER_ID
-        selectedDeploymentStrategyId.string[3].value() == WeblogicDeploymentPolicies.REMOTE_HOST
-        selectedDeploymentStrategyId.string[4].value() == WeblogicDeploymentPolicies.UPSTREAM
-        selectedDeploymentStrategyId.string[5].value() == WeblogicDeploymentPolicies.DEPLOYMENT_TIMER
-        selectedDeploymentStrategyId.string[6].value() == WeblogicDeploymentPolicies.SCM_CHANGE
+            with(selectedDeploymentStrategyIds[0]) {
+                children().size() == 7
+                string[0].value() == WeblogicDeploymentPolicies.LEGACY_CODE
+                string[1].value() == WeblogicDeploymentPolicies.USER
+                string[2].value() == WeblogicDeploymentPolicies.USER_ID
+                string[3].value() == WeblogicDeploymentPolicies.REMOTE_HOST
+                string[4].value() == WeblogicDeploymentPolicies.UPSTREAM
+                string[5].value() == WeblogicDeploymentPolicies.DEPLOYMENT_TIMER
+                string[6].value() == WeblogicDeploymentPolicies.SCM_CHANGE
+            }
 
-        context.publisherNodes[0].tasks.size() == 1
-        def task = context.publisherNodes[0].tasks[0].'org.jenkinsci.plugins.deploy.weblogic.data.DeploymentTask'
-        task.size() == 1
+            tasks.size() == 1
+            def task = tasks[0].'org.jenkinsci.plugins.deploy.weblogic.data.DeploymentTask'
+            task.size() == 1
 
-        task[0].id[0].value().size() == 10
-        task[0].weblogicEnvironmentTargetedName[0].value() == 'test_environment'
-        task[0].deploymentName[0].value() == 'myApp'
-        task[0].deploymentTargets[0].value() == 'ms_one'
-        task[0].isLibrary[0].value() == true
-        task[0].builtResourceRegexToDeploy[0].value() == 'myApp.ear'
-        task[0].baseResourcesGeneratedDirectory[0].value() == ''
-        task[0].taskName[0].value() == 'test_deploy_task'
+            with(task[0]) {
+                id[0].value().size() == 10
+                weblogicEnvironmentTargetedName[0].value() == 'test_environment'
+                deploymentName[0].value() == 'myApp'
+                deploymentTargets[0].value() == 'ms_one'
+                isLibrary[0].value() == true
+                builtResourceRegexToDeploy[0].value() == 'myApp.ear'
+                baseResourcesGeneratedDirectory[0].value() == ''
+                taskName[0].value() == 'test_deploy_task'
 
-        task[0].jdk[0].name[0].value() == 'JDK 7'
-        task[0].jdk[0].home[0].value() == ''
+                jdk[0].name[0].value() == 'JDK 7'
+                jdk[0].home[0].value() == ''
 
-        task[0].stageMode[0].value() == WeblogicDeploymentStageModes.BY_DEFAULT.toString()
-        task[0].commandLine[0].value() == ''
-        task[0].deploymentPlan[0].value() == ''
+                stageMode[0].value() == WeblogicDeploymentStageModes.BY_DEFAULT.toString()
+                commandLine[0].value() == ''
+                deploymentPlan[0].value() == ''
+            }
+        }
     }
 
     def 'publish one deployment to WebLogic with one commandLine arg'() {
@@ -5382,16 +5394,16 @@ class PublisherContextSpec extends Specification {
         context.deployToWeblogic {
 
             task {
-                weblogicEnvironmentTargetedName 'test_environment'
-                deploymentName 'myApp'
-                deploymentTargets 'ms_one'
-                builtResourceRegexToDeploy 'myApp.ear'
-                baseResourcesGeneratedDirectory ''
-                taskName 'test_deploy_task'
+                weblogicEnvironmentTargetedName('test_environment')
+                deploymentName('myApp')
+                deploymentTargets('ms_one')
+                builtResourceRegexToDeploy('myApp.ear')
+                baseResourcesGeneratedDirectory('')
+                taskName('test_deploy_task')
 
-                jdkName 'JDK 7'
+                jdkName('JDK 7')
 
-                stageMode WeblogicDeploymentStageModes.BY_DEFAULT
+                stageMode(WeblogicDeploymentStageModes.BY_DEFAULT)
                 commandLine('-debug')
             }
         }
@@ -5407,16 +5419,16 @@ class PublisherContextSpec extends Specification {
         context.deployToWeblogic {
 
             task {
-                weblogicEnvironmentTargetedName 'test_environment'
-                deploymentName 'myApp'
-                deploymentTargets 'ms_one'
-                builtResourceRegexToDeploy 'myApp.ear'
-                baseResourcesGeneratedDirectory ''
-                taskName 'test_deploy_task'
+                weblogicEnvironmentTargetedName('test_environment')
+                deploymentName('myApp')
+                deploymentTargets('ms_one')
+                builtResourceRegexToDeploy('myApp.ear')
+                baseResourcesGeneratedDirectory('')
+                taskName('test_deploy_task')
 
-                jdkName 'JDK 7'
+                jdkName('JDK 7')
 
-                stageMode WeblogicDeploymentStageModes.BY_DEFAULT
+                stageMode(WeblogicDeploymentStageModes.BY_DEFAULT)
                 commandLine('-debug')
                 commandLine('-remote')
                 commandLine('-verbose')
@@ -5427,12 +5439,12 @@ class PublisherContextSpec extends Specification {
 
         then:
         context.publisherNodes.size() == 1
-        context.publisherNodes[0].name() == 'org.jenkinsci.plugins.deploy.weblogic.WeblogicDeploymentPlugin'
-
-        context.publisherNodes[0].tasks.size() == 1
-        def task = context.publisherNodes[0].tasks[0].'org.jenkinsci.plugins.deploy.weblogic.data.DeploymentTask'
-
-        task[0].commandLine[0].value() == '-debug -remote -verbose -name {wl.deployment_name}'
+        with(context.publisherNodes[0]) {
+            name() == 'org.jenkinsci.plugins.deploy.weblogic.WeblogicDeploymentPlugin'
+            tasks.size() == 1
+            def task = tasks[0].'org.jenkinsci.plugins.deploy.weblogic.data.DeploymentTask'
+            task[0].commandLine[0].value() == '-debug -remote -verbose -name {wl.deployment_name}'
+        }
     }
 
     def 'publish to WebLogic without task definition'() {
@@ -5441,18 +5453,20 @@ class PublisherContextSpec extends Specification {
             mustExitOnFailure()
             forceStopOnFirstFailure()
             deployingOnlyWhenUpdates()
-            deployedProjectsDependencies 'abc,def'
+            deployedProjectsDependencies('abc,def')
         }
 
         then:
         context.publisherNodes.size() == 1
-        context.publisherNodes[0].name() == 'org.jenkinsci.plugins.deploy.weblogic.WeblogicDeploymentPlugin'
-        context.publisherNodes[0].mustExitOnFailure[0].value() == true
-        context.publisherNodes[0].forceStopOnFirstFailure[0].value() == true
-        context.publisherNodes[0].isDeployingOnlyWhenUpdates[0].value() == true
-        context.publisherNodes[0].deployedProjectsDependencies[0].value() == 'abc,def'
+        with(context.publisherNodes[0]) {
+            name() == 'org.jenkinsci.plugins.deploy.weblogic.WeblogicDeploymentPlugin'
+            mustExitOnFailure[0].value() == true
+            forceStopOnFirstFailure[0].value() == true
+            isDeployingOnlyWhenUpdates[0].value() == true
+            deployedProjectsDependencies[0].value() == 'abc,def'
 
-        context.publisherNodes[0].tasks.size() == 0
+            tasks.size() == 0
+        }
     }
 
     def 'publish two deployment to WebLogic with all args'() {
@@ -5461,88 +5475,94 @@ class PublisherContextSpec extends Specification {
             mustExitOnFailure()
             forceStopOnFirstFailure()
             deployingOnlyWhenUpdates()
-            deployedProjectsDependencies 'abc,def'
+            deployedProjectsDependencies('abc,def')
 
             task {
-                weblogicEnvironmentTargetedName 'test_environment'
-                deploymentName 'myApp'
-                deploymentTargets 'ms_one'
+                weblogicEnvironmentTargetedName('test_environment')
+                deploymentName('myApp')
+                deploymentTargets('ms_one')
                 isLibrary()
-                builtResourceRegexToDeploy 'myApp.ear'
-                baseResourcesGeneratedDirectory ''
-                taskName 'test_deploy_task'
+                builtResourceRegexToDeploy('myApp.ear')
+                baseResourcesGeneratedDirectory('')
+                taskName('test_deploy_task')
 
-                jdkName 'JDK 7'
-                jdkHome ''
+                jdkName('JDK 7')
+                jdkHome('')
 
-                stageMode WeblogicDeploymentStageModes.BY_DEFAULT
-                commandLine ''
-                deploymentPlan ''
+                stageMode(WeblogicDeploymentStageModes.BY_DEFAULT)
+                commandLine('')
+                deploymentPlan('')
             }
 
             task {
-                weblogicEnvironmentTargetedName 'test_environment_two'
-                deploymentName 'myApp2'
-                deploymentTargets 'ms_two'
+                weblogicEnvironmentTargetedName('test_environment_two')
+                deploymentName('myApp2')
+                deploymentTargets('ms_two')
                 isLibrary()
-                builtResourceRegexToDeploy 'myApp2.ear'
-                baseResourcesGeneratedDirectory ''
-                taskName 'test_deploy_task_two'
+                builtResourceRegexToDeploy('myApp2.ear')
+                baseResourcesGeneratedDirectory('')
+                taskName('test_deploy_task_two')
 
-                jdkName 'JDK 6'
-                jdkHome ''
+                jdkName('JDK 6')
+                jdkHome('')
 
-                stageMode WeblogicDeploymentStageModes.BY_DEFAULT
-                commandLine ''
-                deploymentPlan ''
+                stageMode(WeblogicDeploymentStageModes.BY_DEFAULT)
+                commandLine('')
+                deploymentPlan('')
             }
 
         }
 
         then:
         context.publisherNodes.size() == 1
-        context.publisherNodes[0].name() == 'org.jenkinsci.plugins.deploy.weblogic.WeblogicDeploymentPlugin'
-        context.publisherNodes[0].mustExitOnFailure[0].value() == true
-        context.publisherNodes[0].forceStopOnFirstFailure[0].value() == true
-        context.publisherNodes[0].isDeployingOnlyWhenUpdates[0].value() == true
-        context.publisherNodes[0].deployedProjectsDependencies[0].value() == 'abc,def'
+        with(context.publisherNodes[0]) {
+            name() == 'org.jenkinsci.plugins.deploy.weblogic.WeblogicDeploymentPlugin'
+            mustExitOnFailure[0].value() == true
+            forceStopOnFirstFailure[0].value() == true
+            isDeployingOnlyWhenUpdates[0].value() == true
+            deployedProjectsDependencies[0].value() == 'abc,def'
 
-        context.publisherNodes[0].tasks.size() == 1
-        def task = context.publisherNodes[0].tasks[0].'org.jenkinsci.plugins.deploy.weblogic.data.DeploymentTask'
-        task.size() == 2
+            tasks.size() == 1
+            def task = tasks[0].'org.jenkinsci.plugins.deploy.weblogic.data.DeploymentTask'
+            task.size() == 2
 
-        // first task
-        task[0].id[0].value().size() == 10
-        task[0].weblogicEnvironmentTargetedName[0].value() == 'test_environment'
-        task[0].deploymentName[0].value() == 'myApp'
-        task[0].deploymentTargets[0].value() == 'ms_one'
-        task[0].isLibrary[0].value() == true
-        task[0].builtResourceRegexToDeploy[0].value() == 'myApp.ear'
-        task[0].baseResourcesGeneratedDirectory[0].value() == ''
-        task[0].taskName[0].value() == 'test_deploy_task'
+            // first task
+            with(task[0]) {
+                id[0].value().size() == 10
+                weblogicEnvironmentTargetedName[0].value() == 'test_environment'
+                deploymentName[0].value() == 'myApp'
+                deploymentTargets[0].value() == 'ms_one'
+                isLibrary[0].value() == true
+                builtResourceRegexToDeploy[0].value() == 'myApp.ear'
+                baseResourcesGeneratedDirectory[0].value() == ''
+                taskName[0].value() == 'test_deploy_task'
 
-        task[0].jdk[0].name[0].value() == 'JDK 7'
-        task[0].jdk[0].home[0].value() == ''
+                jdk[0].name[0].value() == 'JDK 7'
+                jdk[0].home[0].value() == ''
 
-        task[0].stageMode[0].value() == WeblogicDeploymentStageModes.BY_DEFAULT.toString()
-        task[0].commandLine[0].value() == ''
-        task[0].deploymentPlan[0].value() == ''
+                stageMode[0].value() == WeblogicDeploymentStageModes.BY_DEFAULT.toString()
+                commandLine[0].value() == ''
+                deploymentPlan[0].value() == ''
+            }
 
-        // second task
-        task[1].id[0].value().size() == 10
-        task[1].weblogicEnvironmentTargetedName[0].value() == 'test_environment_two'
-        task[1].deploymentName[0].value() == 'myApp2'
-        task[1].deploymentTargets[0].value() == 'ms_two'
-        task[1].isLibrary[0].value() == true
-        task[1].builtResourceRegexToDeploy[0].value() == 'myApp2.ear'
-        task[1].baseResourcesGeneratedDirectory[0].value() == ''
-        task[1].taskName[0].value() == 'test_deploy_task_two'
+            // second task
+            with(task[1]) {
+                id[0].value().size() == 10
+                weblogicEnvironmentTargetedName[0].value() == 'test_environment_two'
+                deploymentName[0].value() == 'myApp2'
+                deploymentTargets[0].value() == 'ms_two'
+                isLibrary[0].value() == true
+                builtResourceRegexToDeploy[0].value() == 'myApp2.ear'
+                baseResourcesGeneratedDirectory[0].value() == ''
+                taskName[0].value() == 'test_deploy_task_two'
 
-        task[1].jdk[0].name[0].value() == 'JDK 6'
-        task[1].jdk[0].home[0].value() == ''
+                jdk[0].name[0].value() == 'JDK 6'
+                jdk[0].home[0].value() == ''
 
-        task[1].stageMode[0].value() == WeblogicDeploymentStageModes.BY_DEFAULT.toString()
-        task[1].commandLine[0].value() == ''
-        task[1].deploymentPlan[0].value() == ''
+                stageMode[0].value() == WeblogicDeploymentStageModes.BY_DEFAULT.toString()
+                commandLine[0].value() == ''
+                deploymentPlan[0].value() == ''
+            }
+        }
     }
 }

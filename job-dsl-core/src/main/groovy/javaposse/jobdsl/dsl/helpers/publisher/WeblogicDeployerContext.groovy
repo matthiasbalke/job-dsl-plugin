@@ -106,22 +106,22 @@ class WeblogicDeployerContext implements Context {
 
         NodeBuilder nodeBuilder = NodeBuilder.newInstance()
         Node tasksNode = nodeBuilder.'org.jenkinsci.plugins.deploy.weblogic.data.DeploymentTask' {
-            id RandomStringUtils.randomAlphanumeric(10)
-            weblogicEnvironmentTargetedName context.weblogicEnvironmentTargetedName
-            deploymentName context.deploymentName
-            deploymentTargets context.deploymentTargets
-            isLibrary context.isLibrary
-            builtResourceRegexToDeploy context.builtResourceRegexToDeploy
-            baseResourcesGeneratedDirectory context.baseResourcesGeneratedDirectory
-            taskName context.taskName
+            id(RandomStringUtils.randomAlphanumeric(10))
+            weblogicEnvironmentTargetedName(context.weblogicEnvironmentTargetedName)
+            deploymentName(context.deploymentName)
+            deploymentTargets(context.deploymentTargets)
+            isLibrary(context.isLibrary)
+            builtResourceRegexToDeploy(context.builtResourceRegexToDeploy)
+            baseResourcesGeneratedDirectory(context.baseResourcesGeneratedDirectory)
+            taskName(context.taskName)
 
             jdk {
-                name context.jdkName
-                home context.jdkHome
+                name(context.jdkName)
+                home(context.jdkHome)
             }
-            stageMode context.stageMode.toString()
-            commandLine context.commandLine
-            deploymentPlan context.deploymentPlan
+            stageMode(context.stageMode.toString())
+            commandLine(context.commandLine)
+            deploymentPlan(context.deploymentPlan)
         }
 
         this.taskNodes << tasksNode
