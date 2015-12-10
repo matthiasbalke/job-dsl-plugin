@@ -1812,7 +1812,7 @@ class PublisherContext extends AbstractExtensibleContext {
      * @since 1.41
      */
     @RequiresPlugin(id = 'weblogic-deployer-plugin', minimumVersion = '2.9.1')
-    void deployToWeblogic(Closure weblogicClosure) {
+    void deployToWeblogic(@DslContext(WeblogicDeployerContext) Closure weblogicClosure) {
 
         WeblogicDeployerContext context = new WeblogicDeployerContext()
         ContextHelper.executeInContext(weblogicClosure, context)

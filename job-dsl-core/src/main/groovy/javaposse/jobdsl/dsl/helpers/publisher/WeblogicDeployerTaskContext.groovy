@@ -26,8 +26,6 @@ class WeblogicDeployerTaskContext implements Context {
 
     /**
      * Server environment to deploy to.
-     *
-     * @param weblogicEnvironmentTargetedName.
      */
     void weblogicEnvironmentTargetedName(String weblogicEnvironmentTargetedName) {
         this.weblogicEnvironmentTargetedName = weblogicEnvironmentTargetedName
@@ -35,18 +33,14 @@ class WeblogicDeployerTaskContext implements Context {
 
     /**
      * Name of the deployed Application.
-     *
-     * @param deploymentName application name.
      */
     void deploymentName(String deploymentName) {
         this.deploymentName = deploymentName
     }
 
     /**
-     * Targets to deploy to.
-     *
-     * @param deploymentTargets Comma separated String of targets
-     * (e.g. AdminServer, myManagedServer, myCluster).
+     * Targets to deploy to. Comma separated String of targets
+     * (e.g. AdminServer, myManagedServer, myCluster). Defaults to {@code AdminServer}
      */
     void deploymentTargets(String deploymentTargets) {
         this.deploymentTargets = deploymentTargets
@@ -54,8 +48,6 @@ class WeblogicDeployerTaskContext implements Context {
 
     /**
      * Type of deployment. Defaults to {@code false}.
-     *
-     * @param isLibrary true, false (default).
      */
     void isLibrary(boolean isLibrary = true) {
         this.isLibrary = isLibrary
@@ -63,8 +55,6 @@ class WeblogicDeployerTaskContext implements Context {
 
     /**
      * Regex matching the artifact to deploy.
-     *
-     * @param builtResourceRegexToDeploy e.g. myApp\.ear
      */
     void builtResourceRegexToDeploy(String builtResourceRegexToDeploy) {
         this.builtResourceRegexToDeploy = builtResourceRegexToDeploy
@@ -73,8 +63,6 @@ class WeblogicDeployerTaskContext implements Context {
     /**
      * Base directory where to search for the deployment artifact.
      * NOTE: Can only be used in FreeStyle projects!
-     *
-     * @param baseResourcesGeneratedDirectory
      */
     void baseResourcesGeneratedDirectory(String baseResourcesGeneratedDirectory) {
         this.baseResourcesGeneratedDirectory = baseResourcesGeneratedDirectory
@@ -82,8 +70,6 @@ class WeblogicDeployerTaskContext implements Context {
 
     /**
      * Task name to identify deployment task (optional).
-     *
-     * @param taskName optional task name.
      */
     void taskName(String taskName) {
         this.taskName = taskName
@@ -91,9 +77,7 @@ class WeblogicDeployerTaskContext implements Context {
 
     /**
      * Name of the JDK to use (optional). If not specified, the default JDK defined in plugin settings will be used.
-     * Defaults to {@code ''}.
-     *
-     * @param jdkName Name of the JDK to use.
+     * Defaults to {@code <empty>}.
      */
     void jdkName(String jdkName) {
         this.jdkName = jdkName
@@ -101,9 +85,7 @@ class WeblogicDeployerTaskContext implements Context {
 
     /**
      * Path to the JDK home to use.
-     * Defaults to {@code ''}.
-     *
-     * @param jdkHome JDK home.
+     * Defaults to {@code <empty>}.
      */
     void jdkHome(String jdkHome) {
         this.jdkHome = jdkHome
@@ -112,8 +94,6 @@ class WeblogicDeployerTaskContext implements Context {
     /**
      * Staging method to use.
      * Defaults to {@code WeblogicDeploymentStageModes.BY_DEFAULT}.
-     *
-     * @param stageMode one of {@link WeblogicDeploymentStageModes}.
      */
     void stageMode(WeblogicDeploymentStageModes stageMode) {
         this.stageMode = stageMode
@@ -121,11 +101,9 @@ class WeblogicDeployerTaskContext implements Context {
 
     /**
      * Defines custom commands to be executed instead of the default ones (undeploy/deploy).
-     * Defaults to {@code ''}.
+     * Commands to be executed separated by semicolon. Defaults to {@code ''}.
      *
      * Can contain tokens which will be replaced. See plugin website.
-     *
-     * @param commandLine commands to be executed separated by semicolon.
      */
     void commandLine(String commandLine) {
         if (this.commandLine.isEmpty()) {
@@ -138,8 +116,6 @@ class WeblogicDeployerTaskContext implements Context {
     /**
      * Path to the deployment plan to use. Must be referenced in command line
      * (See plugin website). Defaults to {@code ''}.
-     *
-     * @param deploymentPlan deployment plan to use.
      */
     void deploymentPlan(String deploymentPlan) {
         this.deploymentPlan = deploymentPlan

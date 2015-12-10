@@ -10,7 +10,6 @@ import spock.lang.Specification
 import static javaposse.jobdsl.dsl.helpers.publisher.ArchiveXUnitContext.ThresholdMode
 import static javaposse.jobdsl.dsl.helpers.publisher.PublisherContext.Behavior.MarkUnstable
 import static javaposse.jobdsl.dsl.helpers.publisher.WeblogicDeployerContext.WeblogicDeploymentStageModes
-import static javaposse.jobdsl.dsl.helpers.publisher.WeblogicDeployerPolicyContext.WeblogicDeploymentPolicies
 
 class PublisherContextSpec extends Specification {
     JobManagement jobManagement = Mock(JobManagement)
@@ -5356,13 +5355,14 @@ class PublisherContextSpec extends Specification {
 
             with(selectedDeploymentStrategyIds[0]) {
                 children().size() == 7
-                string[0].value() == WeblogicDeploymentPolicies.LEGACY_CODE
-                string[1].value() == WeblogicDeploymentPolicies.USER
-                string[2].value() == WeblogicDeploymentPolicies.USER_ID
-                string[3].value() == WeblogicDeploymentPolicies.REMOTE_HOST
-                string[4].value() == WeblogicDeploymentPolicies.UPSTREAM
-                string[5].value() == WeblogicDeploymentPolicies.DEPLOYMENT_TIMER
-                string[6].value() == WeblogicDeploymentPolicies.SCM_CHANGE
+                string[0].value() == 'hudson.model.Cause\\\\\$LegacyCodeCause'
+                string[1].value() == 'hudson.model.Cause\\\\\$UserCause'
+                string[2].value() == 'hudson.model.Cause\\\\\$UserIdCause'
+                string[3].value() == 'hudson.model.Cause\\\\\$RemoteCause'
+                string[4].value() == 'hudson.model.Cause\\\\\$UpstreamCause'
+                string[5].value() == 'org.jenkinsci.plugins.deploy.weblogic.trigger.DeploymentTrigger' +
+                        '\\\\\$DeploymentTriggerCause'
+                string[6].value() == 'hudson.triggers.SCMTrigger\\\\\$SCMTriggerCause'
             }
 
             tasks.size() == 1

@@ -2,6 +2,7 @@ package javaposse.jobdsl.dsl.helpers.publisher
 
 import javaposse.jobdsl.dsl.Context
 import javaposse.jobdsl.dsl.ContextHelper
+import javaposse.jobdsl.dsl.DslContext
 import org.apache.commons.lang.RandomStringUtils
 
 /**
@@ -44,8 +45,6 @@ class WeblogicDeployerContext implements Context {
 
     /**
      * Fails the build if the deployment fails. Defaults to {@code false}.
-     *
-     * @param mustExitOnFailure true, false (default)
      */
     void mustExitOnFailure(boolean mustExitOnFailure = true) {
         this.mustExitOnFailure = mustExitOnFailure
@@ -54,8 +53,6 @@ class WeblogicDeployerContext implements Context {
     /**
      * Stop the job on first deployment failure. No other defined deployment task of this job will be executed.
      * Defaults to {@code false}.
-     *
-     * @param forceStopOnFirstFailure true, false (default)
      */
     void forceStopOnFirstFailure(boolean forceStopOnFirstFailure = true) {
         this.forceStopOnFirstFailure = forceStopOnFirstFailure
@@ -64,8 +61,6 @@ class WeblogicDeployerContext implements Context {
     /**
      * Deploy only if the build was triggered by a parameterized cause AND the SCM detects changes.
      * Defaults to {@code false}.
-     *
-     * @param deployingOnlyWhenUpdates true, false (default)
      */
     void deployingOnlyWhenUpdates(boolean deployingOnlyWhenUpdates = true) {
         this.deployingOnlyWhenUpdates = deployingOnlyWhenUpdates
@@ -74,8 +69,6 @@ class WeblogicDeployerContext implements Context {
     /**
      * (experimental plugin feature) Defines a dependency to other deployment jobs.
      * Defaults to {@code ''}.
-     *
-     * @param deployedProjectsDependencies job name of an other deployment job.
      */
     void deployedProjectsDependencies(String deployedProjectsDependencies) {
         this.deployedProjectsDependencies = deployedProjectsDependencies
@@ -99,7 +92,7 @@ class WeblogicDeployerContext implements Context {
      * These are the default values, which are used if they are not overridden by closure.
      * All other properties must be set via closure for each task definition, as there are no default values.
      */
-    void task(Closure taskClosure) {
+    void task(@DslContext(WeblogicDeployerTaskContext) Closure taskClosure) {
 
         WeblogicDeployerTaskContext context = new WeblogicDeployerTaskContext()
         ContextHelper.executeInContext(taskClosure, context)
