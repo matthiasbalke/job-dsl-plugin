@@ -74,7 +74,7 @@ class WeblogicDeployerContext implements Context {
         this.deployedProjectsDependencies = deployedProjectsDependencies
     }
 
-    void deploymentPolicies(Closure deploymentPoliciesClosure = null) {
+    void deploymentPolicies(@DslContext(WeblogicDeployerPolicyContext) Closure deploymentPoliciesClosure = null) {
 
         WeblogicDeployerPolicyContext context = new WeblogicDeployerPolicyContext()
         ContextHelper.executeInContext(deploymentPoliciesClosure, context)
