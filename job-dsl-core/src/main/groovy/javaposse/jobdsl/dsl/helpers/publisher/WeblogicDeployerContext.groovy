@@ -74,6 +74,9 @@ class WeblogicDeployerContext implements Context {
         this.deployedProjectsDependencies = deployedProjectsDependencies
     }
 
+    /**
+     * Deploy only when the deployment policy is fulfilled. Defaults to {@code <Empty>}
+     */
     void deploymentPolicies(@DslContext(WeblogicDeployerPolicyContext) Closure deploymentPoliciesClosure = null) {
 
         WeblogicDeployerPolicyContext context = new WeblogicDeployerPolicyContext()
